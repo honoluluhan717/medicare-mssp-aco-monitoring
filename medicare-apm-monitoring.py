@@ -3,13 +3,10 @@
 MEDICARE MSSP ACO PERFORMANCE MONITORING
 CMS Performance Year 2024 Financial and Quality Results
 
-Portfolio project using publicly available CMS data.
-This is a descriptive analysis, not official CMS reconciliation.
+Descriptive analysis of CMS PY2024 ACO financial and quality results.
 """
 
-# ============================================================
-# 1. IMPORT LIBRARIES
-# ============================================================
+# import libraries
 
 from pathlib import Path
 import pandas as pd
@@ -17,27 +14,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# ============================================================
-# 2. DEFINE FILE PATHS
-# ============================================================
-
-# Location of this Python script
+# define file paths
 SCRIPT_DIR = Path(__file__).resolve().parent
-
-# CMS CSV file in the same folder as this script
 DATA_FILE = (
     SCRIPT_DIR
     / "PY_Financial_and_Quality_Results_2024_revised 2026_07_17.csv"
 )
-
-# Folder for saving results
 OUTPUT_DIR = SCRIPT_DIR / "output"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
-# ============================================================
-# 3. LOAD CMS DATA
-# ============================================================
+# load cms data
 
 def load_data():
 
@@ -56,9 +43,7 @@ def load_data():
     return df
 
 
-# ============================================================
-# 4. DATA QUALITY CHECKS
-# ============================================================
+# data quality checks
 
 def inspect_data(df):
 
@@ -87,16 +72,12 @@ def inspect_data(df):
         raise ValueError(
             f"Required columns missing: {missing_columns}"
         )
-
-    # Check duplicate ACO identifiers
     duplicate_count = df["ACO_ID"].duplicated().sum()
 
     print("Duplicate ACO IDs:", duplicate_count)
 
     if duplicate_count > 0:
         print("WARNING: Duplicate ACO IDs detected.")
-
-    # Calculate missing data
     missing_report = pd.DataFrame({
         "Variable": df.columns,
         "Missing_Count": df.isna().sum().values,
@@ -115,8 +96,6 @@ def inspect_data(df):
         OUTPUT_DIR / "missing_data_report.csv",
         index=False
     )
-
-    # Save variable dictionary
     dictionary = pd.DataFrame({
         "Variable": df.columns,
         "Data_Type": df.dtypes.astype(str).values
@@ -128,9 +107,7 @@ def inspect_data(df):
     )
 
 
-# ============================================================
-# 5. CLEAN FINANCIAL VARIABLES
-# ============================================================
+# clean financial variables
 
 def clean_financial_data(df):
 
@@ -179,9 +156,7 @@ def clean_financial_data(df):
     return df
 
 
-# ============================================================
-# 6. CLASSIFY ACO FINANCIAL PERFORMANCE
-# ============================================================
+# classify aco financial performance
 
 def classify_financial_performance(df):
 
@@ -189,8 +164,7 @@ def classify_financial_performance(df):
 
     df = df.copy()
 
-    # Positive = benchmark exceeds expenditure
-    # Negative = expenditure exceeds benchmark
+    # Positive values indicate spending below the benchmark.
 
     amount = df["BnchmkMinExp"]
 
@@ -231,9 +205,7 @@ def classify_financial_performance(df):
     return df
 
 
-# ============================================================
-# 7. FINANCIAL PERFORMANCE BY RISK MODEL
-# ============================================================
+# financial performance by risk model
 
 def analyze_risk_models(df):
 
@@ -264,9 +236,7 @@ def analyze_risk_models(df):
     )
 
 
-# ============================================================
-# 8. FINANCIAL PERFORMANCE BY TRACK
-# ============================================================
+# financial performance by track
 
 def analyze_tracks(df):
 
@@ -296,9 +266,7 @@ def analyze_tracks(df):
     )
 
 
-# ============================================================
-# 9. IDENTIFY TOP AND BOTTOM 10 ACOS
-# ============================================================
+# identify top and bottom 10 acos
 
 def rank_acos(df):
 
@@ -337,9 +305,7 @@ def rank_acos(df):
     )
 
 
-# ============================================================
-# 10. CREATE FINANCIAL PERFORMANCE CHART
-# ============================================================
+# create financial performance chart
 
 def create_chart(df):
 
@@ -377,38 +343,20 @@ def create_chart(df):
     print("Chart saved successfully.")
 
 
-# ============================================================
-# 11. RUN ALL ANALYSES
-# ============================================================
+# run all analyses
 
 def main():
 
     print("=" * 60)
     print("MEDICARE MSSP ACO PERFORMANCE MONITORING")
     print("=" * 60)
-
-    # Load data
     df = load_data()
-
-    # Inspect data
     inspect_data(df)
-
-    # Clean financial variables
     df = clean_financial_data(df)
-
-    # Analyze financial performance
     df = classify_financial_performance(df)
-
-    # Compare risk models
     analyze_risk_models(df)
-
-    # Compare tracks
     analyze_tracks(df)
-
-    # Rank ACOs
     rank_acos(df)
-
-    # Create chart
     create_chart(df)
 
     print("\n" + "=" * 60)
@@ -418,9 +366,7 @@ def main():
     print("Results saved to:", OUTPUT_DIR)
 
 
-# ============================================================
-# 12. EXECUTE SCRIPT
-# ============================================================
+# execute script
 
 if __name__ == "__main__":
     main()
