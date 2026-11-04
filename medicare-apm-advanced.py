@@ -3,15 +3,10 @@
 MEDICARE MSSP ACO ADVANCED PERFORMANCE MONITORING
 Performance Year 2024
 
-Expanded financial and quality monitoring using public CMS data.
-
-This is a descriptive portfolio analysis, not an official
-CMS financial reconciliation or causal evaluation.
+Financial and quality summaries from CMS PY2024 ACO-level data.
 """
 
-# ============================================================
-# 1. IMPORT LIBRARIES
-# ============================================================
+# import libraries
 
 from pathlib import Path
 import matplotlib
@@ -22,13 +17,11 @@ import numpy as np
 import pandas as pd
 
 
-# ============================================================
-# 2. DEFINE FILE PATHS AND VARIABLES
-# ============================================================
+# define file paths and variables
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 
-# Separate output folder: does not overwrite original results
+# Keep results separate from the initial analysis.
 OUTPUT_DIR = SCRIPT_DIR / "output_advanced"
 
 CSV_FILE = (
@@ -60,9 +53,7 @@ NUMERIC_COLUMNS = [
 ]
 
 
-# ============================================================
-# 3. LOAD AND VALIDATE CMS DATA
-# ============================================================
+# load and validate cms data
 
 def load_and_validate():
 
@@ -98,9 +89,7 @@ def load_and_validate():
     return df
 
 
-# ============================================================
-# 4. CLEAN NUMERIC VARIABLES
-# ============================================================
+# clean numeric variables
 
 def clean_numbers(df):
 
@@ -139,9 +128,7 @@ def clean_numbers(df):
     return df
 
 
-# ============================================================
-# 5. DATA QUALITY MONITORING
-# ============================================================
+# data quality monitoring
 
 def data_quality_report(raw, df):
 
@@ -179,9 +166,7 @@ def data_quality_report(raw, df):
     print(missing.head(10).to_string(index=False))
 
 
-# ============================================================
-# 6. CREATE FINANCIAL MONITORING INDICATORS
-# ============================================================
+# create financial monitoring indicators
 
 def create_financial_indicators(df):
 
@@ -221,8 +206,7 @@ def create_financial_indicators(df):
         default="Missing"
     )
 
-    # Exploratory MSR comparison.
-    # This is NOT an official payment eligibility determination.
+    # Exploratory threshold check; not a CMS payment determination.
 
     if "MinSavPerc" in df.columns:
 
@@ -251,9 +235,7 @@ def create_financial_indicators(df):
     return df
 
 
-# ============================================================
-# 7. SUMMARIZE PERFORMANCE BY GROUP
-# ============================================================
+# summarize performance by group
 
 def group_summary(df, group_variable):
 
@@ -296,9 +278,7 @@ def group_summary(df, group_variable):
     return summary
 
 
-# ============================================================
-# 8. EXPORT FINANCIAL AND QUALITY TABLES
-# ============================================================
+# export financial and quality tables
 
 def export_tables(df):
 
@@ -319,14 +299,10 @@ def export_tables(df):
 
     if "Above_Reported_MSR" in df.columns:
         columns.append("Above_Reported_MSR")
-
-    # ACO-level monitoring dataset
     df[columns].to_csv(
         OUTPUT_DIR / "aco_monitoring_table.csv",
         index=False
     )
-
-    # Risk model comparison
     risk_summary = group_summary(
         df, "Risk_Model"
     )
@@ -338,8 +314,6 @@ def export_tables(df):
 
     print("\nRisk model comparison:")
     print(risk_summary.to_string(index=False))
-
-    # Track comparison
     track_summary = group_summary(
         df, "Current_Track"
     )
@@ -351,8 +325,6 @@ def export_tables(df):
 
     print("\nTrack comparison:")
     print(track_summary.to_string(index=False))
-
-    # Financial rankings
     df.nlargest(
         10, "BnchmkMinExp"
     )[columns].to_csv(
@@ -366,8 +338,6 @@ def export_tables(df):
         OUTPUT_DIR / "bottom_10_acos.csv",
         index=False
     )
-
-    # Quality rankings
     df.nlargest(
         10, "QualScore"
     )[columns].to_csv(
@@ -381,8 +351,6 @@ def export_tables(df):
         OUTPUT_DIR / "bottom_10_quality_scores.csv",
         index=False
     )
-
-    # Descriptive correlations
     correlations = df[
         [
             "Sav_rate",
@@ -402,15 +370,11 @@ def export_tables(df):
     return correlations
 
 
-# ============================================================
-# 9. CREATE VISUALIZATIONS
-# ============================================================
+# create visualizations
 
 def create_charts(df):
 
     print("\n=== CREATING CHARTS ===")
-
-    # Chart 1: Financial status distribution
 
     counts = (
         df["Financial_Status"]
@@ -446,8 +410,6 @@ def create_charts(df):
 
     plt.close(fig)
 
-    # Chart 2: Savings rate by risk model
-
     risk_means = (
         df.groupby("Risk_Model")["Sav_rate"]
         .mean()
@@ -473,8 +435,6 @@ def create_charts(df):
     )
 
     plt.close(fig)
-
-    # Chart 3: Savings rate by track
 
     track_means = (
         df.groupby("Current_Track")["Sav_rate"]
@@ -502,8 +462,6 @@ def create_charts(df):
 
     plt.close(fig)
 
-    # Chart 4: Quality score distribution
-
     fig, ax = plt.subplots(figsize=(9, 6))
 
     df["QualScore"].dropna().hist(
@@ -525,8 +483,6 @@ def create_charts(df):
     )
 
     plt.close(fig)
-
-    # Chart 5: Savings rate versus quality score
 
     paired = df[
         ["Sav_rate", "QualScore"]
@@ -558,9 +514,7 @@ def create_charts(df):
     print("Five charts saved.")
 
 
-# ============================================================
-# 10. GENERATE AUTOMATED MONITORING REPORT
-# ============================================================
+# generate automated monitoring report
 
 def generate_report(df, correlations):
 
@@ -652,14 +606,7 @@ The output_advanced folder contains:
 - Data quality reports
 - Five charts
 
-### 7. Conclusion
 
-This project demonstrates a reproducible approach to
-monitoring Medicare ACO financial and quality performance
-using publicly available CMS data.
-
-The analysis supports descriptive performance assessment,
-identification of variation, and further investigation.
 """
 
     report_path = (
@@ -674,9 +621,7 @@ identification of variation, and further investigation.
     print("Monitoring report saved.")
 
 
-# ============================================================
-# 11. MAIN ANALYSIS PIPELINE
-# ============================================================
+# main analysis pipeline
 
 def main():
 
@@ -694,20 +639,10 @@ def main():
 
     # Clean numeric variables
     df = clean_numbers(raw)
-
-    # Export data quality reports
     data_quality_report(raw, df)
-
-    # Create financial indicators
     df = create_financial_indicators(df)
-
-    # Export financial and quality summaries
     correlations = export_tables(df)
-
-    # Generate charts
     create_charts(df)
-
-    # Generate Markdown report
     generate_report(df, correlations)
 
     print("\n" + "=" * 60)
@@ -718,9 +653,7 @@ def main():
     print(OUTPUT_DIR)
 
 
-# ============================================================
-# 12. EXECUTE THE SCRIPT
-# ============================================================
+# execute the script
 
 if __name__ == "__main__":
     main()
