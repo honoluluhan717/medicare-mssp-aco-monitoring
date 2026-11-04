@@ -1,144 +1,85 @@
-# Medicare MSSP ACO Performance Monitoring | 2024
+# Medicare Shared Savings Program: ACO Performance, 2024
 
-**Python portfolio project | Medicare Shared Savings Program (MSSP) | Financial and quality performance**
+Analysis of CMS financial and quality results for 476 Medicare Shared Savings Program (MSSP) Accountable Care Organizations (ACOs) in performance year 2024.
 
-This project analyzes publicly reported **2024 Medicare Shared Savings Program (MSSP)** results for **476 Accountable Care Organizations (ACOs)**. It demonstrates a reproducible approach to data validation, financial and quality performance monitoring, ACO comparisons, and reporting using Python.
+## Results
 
-The analysis is **descriptive**. It is not an official CMS reconciliation, a causal evaluation, or an assessment of a CMMI demonstration model.
-
-## Key findings
-
-| Metric | 2024 result |
+| Measure | Result |
 |---|---:|
 | ACOs analyzed | 476 |
-| ACOs with gross savings relative to benchmark | 422 (88.7%) |
-| ACOs with gross losses relative to benchmark | 54 (11.3%) |
-| Net benchmark-minus-expenditure amount | $6.61 billion |
-| Net reported earned savings minus owed losses | $4.12 billion |
-| ACOs with positive earned amounts | 360 |
-| ACOs with negative owed amounts | 16 |
-| ACOs with zero earned/owed amounts | 100 |
-| Correlation: savings rate vs. quality score | 0.157 |
+| ACOs with spending below benchmark | 422 (88.7%) |
+| ACOs with spending above benchmark | 54 (11.3%) |
+| Net benchmark minus expenditures | $6.61 billion |
+| Net earned savings minus owed losses | $4.12 billion |
+| Positive / zero / negative earned or owed amounts | 360 / 100 / 16 |
+| Pearson correlation, savings rate and quality score | 0.157 |
 
-**Interpretation:** Most ACOs had expenditures below their benchmarks, but gross savings do not translate dollar-for-dollar into earned shared-savings payments. The association between savings rate and quality score was weak and positive; it should not be interpreted causally.
+The benchmark difference is not the same as the payment an ACO earns. Of the 54 ACOs with spending above benchmark, 16 reported negative owed amounts.
 
-### Comparison by financial risk model
+### Risk-model comparison
 
-| Measure | One-sided risk | Two-sided risk |
+| Measure | One-sided | Two-sided |
 |---|---:|---:|
-| Number of ACOs | 157 | 319 |
+| ACOs | 157 | 319 |
 | Mean savings rate | 3.20% | 5.53% |
 | Mean quality score | 78.44 | 83.60 |
-| ACOs with gross savings | 130 | 292 |
+| ACOs with spending below benchmark | 130 | 292 |
 
-These are **unweighted, descriptive comparisons**. Risk-model groups can differ in size, beneficiary populations, organizational experience, and other characteristics.
+These are unweighted group summaries. Differences may reflect beneficiary populations, ACO size, experience, and other factors; they are not estimates of the effect of taking on financial risk.
 
-## Visualizations
+## Figures
 
-### Financial performance distribution
+### Financial results by ACO
+![ACOs with savings or losses](output_advanced/financial_performance_distribution.png)
 
-![ACO financial performance distribution](output_advanced/financial_performance_distribution.png)
+### Savings rate by risk model
+![Mean savings rate by risk model](output_advanced/risk_model_comparison.png)
 
-### Average savings rate by risk model
+### Savings rate by track
+![Mean savings rate by track](output_advanced/track_comparison.png)
 
-![Average savings rate by risk model](output_advanced/risk_model_comparison.png)
-
-### Average savings rate by MSSP track
-
-![Average savings rate by MSSP track](output_advanced/track_comparison.png)
-
-### Quality score distribution
-
-![Distribution of ACO quality scores](output_advanced/quality_score_distribution.png)
+### Quality scores
+![Quality score distribution](output_advanced/quality_score_distribution.png)
 
 ### Savings rate and quality score
+![Savings rate against quality score](output_advanced/savings_vs_quality.png)
 
-![Scatterplot of ACO savings rate and quality score](output_advanced/savings_vs_quality.png)
+## Analysis
 
-> **Note:** Images will display on GitHub after the five PNG files are committed under `output_advanced/`.
+The scripts check ACO identifiers and missing values, convert reported financial fields to numeric types, classify benchmark savings and losses, and summarize financial and quality results by risk model and track. The advanced script also produces ACO rankings, a correlation matrix, five figures, and a Markdown results report.
 
-## Methods
+- `medicare-apm-monitoring.py`: initial financial summaries and rankings
+- `medicare-apm-advanced.py`: financial and quality summaries, figures, and report
+- `output_advanced/`: exported results and figures
 
-1. **Import and validate:** Read the CMS ACO-level CSV, verify required variables, and check for duplicate ACO IDs.
-2. **Clean variables:** Convert selected financial and quality fields to numeric types and summarize missingness.
-3. **Classify financial results:** Categorize ACOs using the sign of benchmark-minus-expenditure amounts, and separately classify reported earned/owed amounts.
-4. **Compare ACO groups:** Summarize savings rates, quality scores, and financial totals by `Risk_Model` and `Current_Track`.
-5. **Monitor quality and financial relationships:** Generate score distributions, a savings-versus-quality scatterplot, and descriptive Pearson correlations.
-6. **Export reports:** Save ACO-level monitoring data, comparison tables, rankings, charts, and a Markdown report.
+### Selected tables
 
-The exploratory comparison of `Sav_rate` and `MinSavPerc` in the advanced script is **not an official shared-savings eligibility determination**.
+- [ACO monitoring table](output_advanced/aco_monitoring_table.csv)
+- [Results by risk model](output_advanced/financial_by_risk_model.csv)
+- [Results by track](output_advanced/financial_by_track.csv)
+- [Correlation matrix](output_advanced/descriptive_correlations.csv)
+- [Results report](output_advanced/monitoring_report.md)
 
-## Repository contents
+## Data and reproducibility
 
-```text
-medicare-mssp-aco-monitoring/
-├── medicare-apm-monitoring.py      # Initial financial monitoring analysis
-├── medicare-apm-advanced.py        # Expanded financial and quality analysis
-├── output_advanced/               # Generated charts and selected reports
-│   ├── financial_performance_distribution.png
-│   ├── risk_model_comparison.png
-│   ├── track_comparison.png
-│   ├── quality_score_distribution.png
-│   ├── savings_vs_quality.png
-│   └── monitoring_report.md
-└── README.md
-```
+Source: Centers for Medicare & Medicaid Services, **MSSP Performance Year 2024 ACO Financial and Quality Results**.
 
-## Data source
-
-**Centers for Medicare & Medicaid Services (CMS):** Medicare Shared Savings Program, Performance Year 2024 ACO Financial and Quality Results.
-
-The scripts expect the CMS CSV file to be in the same directory as the Python scripts, with this filename:
+Download the public CMS CSV and place it in the same directory as the scripts. The expected filename is:
 
 ```text
 PY_Financial_and_Quality_Results_2024_revised 2026_07_17.csv
 ```
 
-The source dataset is not required to be committed to this repository. Obtain the public-use data from CMS and place it locally alongside the scripts.
-
-## How to run
-
-**Requirements:** Python 3 and the following packages:
+Install dependencies and run:
 
 ```bash
 pip install pandas numpy matplotlib
-```
-
-Run the original analysis:
-
-```bash
 python medicare-apm-monitoring.py
-```
-
-Run the expanded analysis:
-
-```bash
 python medicare-apm-advanced.py
 ```
 
-On Windows, `py` may be used instead of `python`.
-
-The original script saves files to `output/`; the expanded script saves files to `output_advanced/`. Both folders are created automatically.
-
-## Selected outputs
-
-- [ACO-level monitoring table](output_advanced/aco_monitoring_table.csv)
-- [Financial results by risk model](output_advanced/financial_by_risk_model.csv)
-- [Financial results by track](output_advanced/financial_by_track.csv)
-- [Descriptive correlation matrix](output_advanced/descriptive_correlations.csv)
-- [Automated monitoring report](output_advanced/monitoring_report.md)
-
-These links work after the corresponding generated files have been pushed to GitHub.
+On Windows, `py` can replace `python`. Results are written to `output/` and `output_advanced/`, respectively.
 
 ## Limitations
 
-- This is a **single-year, cross-sectional** analysis; it does not establish causal effects.
-- Group averages are **unweighted** and do not adjust for beneficiary mix, ACO size, or other confounding factors.
-- Dollar-denominated savings rankings can reflect organizational size and should not be treated as efficiency rankings.
-- The analysis uses reported quality scores and does not independently reproduce CMS quality scoring.
-- MSSP payment reconciliation involves thresholds, sharing rates, quality requirements, caps, and other program-specific rules; the script does not reconstruct the full official calculation.
-- Missing values may reflect reporting applicability rather than data errors.
-
-## Project purpose
-
-This project illustrates practical workflows relevant to **Medicare value-based payment analytics, healthcare program performance monitoring, data quality assessment, and reproducible reporting**.
+This is a single-year descriptive analysis, not a causal comparison or an independent CMS payment reconciliation. Group means are unweighted. Gross dollar savings are influenced by ACO size; quality scores are taken as reported. The comparison between `Sav_rate` and `MinSavPerc` is exploratory and should not be used as an official eligibility test. Missing values may reflect differences in reporting applicability.
