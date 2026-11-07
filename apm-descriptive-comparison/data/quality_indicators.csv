@@ -1,9 +1,0 @@
-model,period,measure,value,unit,interpretation,source_url
-MSSP,2023,overall_quality_score,82,percent,Program-reported overall score,https://www.cms.gov/files/document/2025-shared-savings-program-fast-facts.pdf
-ACO REACH,2023,total_quality_score_standard_new_entrant,78.55,percent,118 standard/new entrant ACOs,https://www.cms.gov/priorities/innovation/aco-reach-py2023-financial-and-quality-performance-results-fact-sheet
-ACO REACH,2023,total_quality_score_high_needs,86.73,percent,14 high-needs ACOs,https://www.cms.gov/priorities/innovation/aco-reach-py2023-financial-and-quality-performance-results-fact-sheet
-ACO REACH,2022,timely_followup_standard_new_entrant,68.31,percent,Reported group mean,https://www.cms.gov/priorities/innovation/aco-reach-py2023-financial-and-quality-performance-results-fact-sheet
-ACO REACH,2023,timely_followup_standard_new_entrant,71.80,percent,Reported group mean,https://www.cms.gov/priorities/innovation/aco-reach-py2023-financial-and-quality-performance-results-fact-sheet
-ACO REACH,2024,all_condition_readmission_Q2,15.16,percent,Q2 rolling-period mean,https://www.cms.gov/files/document/py2024-reach-quarterly-transp-report.pdf
-BPCI Advanced,MY1-8,readmissions_mortality,No overall increase,qualitative,Evaluation summary no common quality score,https://www.cms.gov/priorities/innovation/data-and-reports/2026/bpci-adv-ar7
-BPCI Advanced,MY7-8,patient_reported_function,Less favorable for medical episodes,qualitative,Reported evaluation exception,https://www.cms.gov/priorities/innovation/data-and-reports/2026/bpci-adv-ar7
