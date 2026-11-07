@@ -1,0 +1,15 @@
+model,period,measure,value,unit,interpretation,source_url
+MSSP,2023,benchmark_net_savings_per_beneficiary,207,USD per beneficiary,Reported net per-capita savings,https://www.cms.gov/files/document/fact-sheet-ssp-py24-financial-and-quality-results.pdf
+MSSP,2024,benchmark_net_savings_per_beneficiary,245,USD per beneficiary,Reported net per-capita savings,https://www.cms.gov/files/document/fact-sheet-ssp-py24-financial-and-quality-results.pdf
+MSSP,2023,benchmark_gross_savings_per_beneficiary,515,USD per beneficiary,Reported gross per-capita savings,https://www.cms.gov/files/document/fact-sheet-ssp-py24-financial-and-quality-results.pdf
+MSSP,2024,benchmark_gross_savings_per_beneficiary,651,USD per beneficiary,Reported gross per-capita savings,https://www.cms.gov/files/document/fact-sheet-ssp-py24-financial-and-quality-results.pdf
+MSSP,2024,earned_shared_savings,4100,USD millions,Rounded ACO performance payments,https://www.cms.gov/files/document/fact-sheet-ssp-py24-financial-and-quality-results.pdf
+MSSP,2024,medicare_benchmark_net_savings,2500,USD millions,Savings relative to benchmark not causal impact,https://www.cms.gov/files/document/fact-sheet-ssp-py24-financial-and-quality-results.pdf
+ACO REACH,2022,cms_benchmark_net_savings,371.5,USD millions,GPDC predecessor settlement,https://www.cms.gov/priorities/innovation/aco-reach-py2023-financial-and-quality-performance-results-fact-sheet
+ACO REACH,2023,cms_benchmark_net_savings,694.6,USD millions,Benchmark settlement not evaluation impact,https://www.cms.gov/priorities/innovation/aco-reach-py2023-financial-and-quality-performance-results-fact-sheet
+ACO REACH,2023,gross_benchmark_savings,1643,USD millions,Reported gross savings,https://www.cms.gov/priorities/innovation/aco-reach-py2023-financial-and-quality-performance-results-fact-sheet
+ACO REACH,2023,aco_net_savings,948.4,USD millions,Reported ACO net savings,https://www.cms.gov/priorities/innovation/aco-reach-py2023-financial-and-quality-performance-results-fact-sheet
+BPCI Advanced,MY1-2,evaluation_net_medicare_savings,-66,USD millions,Rounded independent evaluation estimate,https://www.cms.gov/priorities/innovation/data-and-reports/2026/bpci-adv-ar7-aag
+BPCI Advanced,MY3,evaluation_net_medicare_savings,-114,USD millions,Rounded independent evaluation estimate,https://www.cms.gov/priorities/innovation/data-and-reports/2026/bpci-adv-ar7-aag
+BPCI Advanced,MY4-6,evaluation_net_medicare_savings,916,USD millions,Rounded independent evaluation estimate,https://www.cms.gov/priorities/innovation/data-and-reports/2026/bpci-adv-ar7-aag
+BPCI Advanced,MY7-8,evaluation_net_medicare_savings,86,USD millions,Rounded estimate with later-period uncertainty,https://www.cms.gov/priorities/innovation/data-and-reports/2026/bpci-adv-ar7-aag
