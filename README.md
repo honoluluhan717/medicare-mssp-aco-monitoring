@@ -64,7 +64,7 @@ The scripts check ACO identifiers and missing values, convert reported financial
 
 This project uses the public **Centers for Medicare & Medicaid Services (CMS) Medicare Shared Savings Program (MSSP) Performance Year 2024 ACO Financial and Quality Results**, revised July 17, 2026. The dataset reports ACO-level financial reconciliation, benchmark performance, risk arrangements, and quality measures.
 
-Source: [CMS Shared Savings Program data](https://www.cms.gov/medicare/payment/fee-for-service-providers/shared-savings-program-ssp-acos/data).
+Codebook: [Variables used in this analysis](DATA_DICTIONARY.md), with a link to the official CMS data dictionary.\n\nSource: [CMS Shared Savings Program data](https://www.cms.gov/medicare/payment/fee-for-service-providers/shared-savings-program-ssp-acos/data).
 
 The source CSV is included in the repository root as `PY_Financial_and_Quality_Results_2024_revised 2026_07_17.csv`. Both scripts read this file directly.
 
