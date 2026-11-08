@@ -46,7 +46,7 @@ These are unweighted group summaries. Differences may reflect beneficiary popula
 
 ## Analysis
 
-The scripts check ACO identifiers and missing values, convert reported financial fields to numeric types, classify benchmark savings and losses, and summarize financial and quality results by risk model and track. The advanced script also produces ACO rankings, a correlation matrix, five figures, and a Markdown results report.
+The scripts check ACO identifiers and missing values, convert reported financial fields to numeric types, classify benchmark savings and losses, and summarize financial and quality results by risk model and track. The advanced script also produces ACO rankings, a correlation matrix, five figures, a numeric-conversion audit, and a Markdown results report.
 
 - `medicare-apm-monitoring.py`: initial financial summaries and rankings
 - `medicare-apm-advanced.py`: financial and quality summaries, figures, and report
@@ -58,7 +58,7 @@ The scripts check ACO identifiers and missing values, convert reported financial
 - [Results by risk model](output_advanced/financial_by_risk_model.csv)
 - [Results by track](output_advanced/financial_by_track.csv)
 - [Correlation matrix](output_advanced/descriptive_correlations.csv)
-- [Results report](output_advanced/monitoring_report.md)
+- [Results report](output_advanced/monitoring_report.md) (generated when the advanced script runs)
 
 ## Data source and reproducibility
 
@@ -70,4 +70,4 @@ The source CSV is included in the repository root as `PY_Financial_and_Quality_R
 
 ## Limitations
 
-This is a single-year descriptive analysis, not a causal comparison or an independent CMS payment reconciliation. Group means are unweighted. Gross dollar savings are influenced by ACO size; quality scores are taken as reported. The comparison between `Sav_rate` and `MinSavPerc` is exploratory and should not be used as an official eligibility test. Missing values may reflect differences in reporting applicability.
+This is a single-year descriptive analysis, not a causal comparison or an independent CMS payment reconciliation. Group means are unweighted. Gross dollar savings are influenced by ACO size; quality scores are taken as reported. The comparison between `Sav_rate` and `MinSavPerc` is exploratory and should not be used as an official eligibility test. Missing values may reflect differences in reporting applicability. `Risk_Model` describes financial risk arrangements, not clinical risk adjustment. `Sav_rate` is presented as reported by CMS in percentage-point units. The numeric-conversion audit identifies values that could not be parsed.
