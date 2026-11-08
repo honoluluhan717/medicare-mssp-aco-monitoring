@@ -60,17 +60,15 @@ The scripts check ACO identifiers and missing values, convert reported financial
 - [Correlation matrix](output_advanced/descriptive_correlations.csv)
 - [Results report](output_advanced/monitoring_report.md)
 
-## Data and reproducibility
+## Data source and reproducibility
 
-Source: Centers for Medicare & Medicaid Services, **MSSP Performance Year 2024 ACO Financial and Quality Results**.
+This project uses the public **Centers for Medicare & Medicaid Services (CMS) Medicare Shared Savings Program (MSSP) Performance Year 2024 ACO Financial and Quality Results**, revised July 17, 2026. The dataset reports ACO-level financial reconciliation, benchmark performance, risk arrangements, and quality measures.
 
-Download the public CMS CSV and place it in the same directory as the scripts. The expected filename is:
+Source: [CMS Shared Savings Program data](https://www.cms.gov/medicare/payment/fee-for-service-providers/shared-savings-program-ssp-acos/data).
 
-```text
-PY_Financial_and_Quality_Results_2024_revised 2026_07_17.csv
-```
+The source CSV is included in the repository root as `PY_Financial_and_Quality_Results_2024_revised 2026_07_17.csv`. Both scripts read this file directly.
 
-Install dependencies and run:
+To reproduce the analysis:
 
 ```bash
 pip install pandas numpy matplotlib
