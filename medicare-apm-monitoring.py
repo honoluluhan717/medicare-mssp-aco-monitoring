@@ -7,20 +7,40 @@ folder = Path(__file__).parent
 out = folder / "output"
 out.mkdir(exist_ok=True)
 
-df = pd.read_csv(folder / "PY_Financial_and_Quality_Results_2024_revised 2026_07_17.csv")
+# Fail early if the source file or required CMS fields are unavailable.
+source = folder / "PY_Financial_and_Quality_Results_2024_revised 2026_07_17.csv"
+if not source.is_file():
+    raise FileNotFoundError(f"CMS input file not found: {source}")
+required = {"ACO_ID", "ACO_Name", "BnchmkMinExp", "EarnSaveLoss",
+            "Sav_rate", "QualScore", "Risk_Model", "Current_Track"}
+df = pd.read_csv(source, low_memory=False)
+missing_columns = required - set(df.columns)
+if missing_columns:
+    raise ValueError(f"Missing required CMS columns: {sorted(missing_columns)}")
+if df["ACO_ID"].isna().any() or df["ACO_ID"].duplicated().any():
+    raise ValueError("ACO_ID contains missing or duplicate values")
 print("Rows and columns:", df.shape)
 print("Duplicate ACO IDs:", df["ACO_ID"].duplicated().sum())
 df.isna().sum().to_csv(out / "missing_data_report.csv", header=["Missing_Count"])
 
 # Convert CMS financial fields to numbers.
 numbers = ["BnchmkMinExp", "EarnSaveLoss", "Sav_rate", "QualScore"]
-for col in numbers:
-    df[col] = pd.to_numeric(
-        df[col].astype("string").str.replace(r"[$,%]", "", regex=True),
+# Audit fields that could not be parsed as numbers.
+numeric_fields = ["BnchmkMinExp", "EarnSaveLoss", "Sav_rate", "QualScore"]
+numeric_audit = []
+for col in numeric_fields:
+    original_values = df[col].astype("string").str.strip()
+    parsed = pd.to_numeric(
+        original_values.str.replace(r"[$,%]", "", regex=True)
+                       .str.replace(",", "", regex=False),
         errors="coerce"
     )
+    invalid = original_values.notna() & ~original_values.isin(["", "-", "N/A"]) & parsed.isna()
+    numeric_audit.append({"Field": col, "Non_numeric_values": int(invalid.sum()),
+                          "Missing_after_conversion": int(parsed.isna().sum())})
+    df[col] = parsed
+pd.DataFrame(numeric_audit).to_csv(out / "numeric_conversion_audit.csv", index=False)
 
-# Positive benchmark difference means expenditures were below benchmark.
 df["Financial_Status"] = "Missing"
 df.loc[df["BnchmkMinExp"] > 0, "Financial_Status"] = "Savings"
 df.loc[df["BnchmkMinExp"] < 0, "Financial_Status"] = "Losses"
