@@ -68,16 +68,6 @@ Source: [CMS Shared Savings Program data](https://www.cms.gov/medicare/payment/f
 
 The source CSV is included in the repository root as `PY_Financial_and_Quality_Results_2024_revised 2026_07_17.csv`. Both scripts read this file directly.
 
-To reproduce the analysis:
-
-```bash
-pip install pandas numpy matplotlib
-python medicare-apm-monitoring.py
-python medicare-apm-advanced.py
-```
-
-On Windows, `py` can replace `python`. Results are written to `output/` and `output_advanced/`, respectively.
-
 ## Limitations
 
 This is a single-year descriptive analysis, not a causal comparison or an independent CMS payment reconciliation. Group means are unweighted. Gross dollar savings are influenced by ACO size; quality scores are taken as reported. The comparison between `Sav_rate` and `MinSavPerc` is exploratory and should not be used as an official eligibility test. Missing values may reflect differences in reporting applicability.
