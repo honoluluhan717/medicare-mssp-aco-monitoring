@@ -1,0 +1,38 @@
+name: Add original CMS data dictionary
+
+on:
+  push:
+    paths:
+      - .github/workflows/add-cms-codebook.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download original CMS PDF
+        run: |
+          mkdir -p documentation
+          curl --fail --location --retry 3 --silent --show-error \
+            'https://data.cms.gov/sites/default/files/2025-09/239940c3-90de-4717-bfe2-2755e2147ef1/UPDATE-DD-Medicare_SSP-PY_Financial_and_Quality_Results_2024_Rerun_20250925.pdf' \
+            --output documentation/CMS_MSSP_2024_Data_Dictionary.pdf
+          python - <<'PY'
+          from pathlib import Path
+          p = Path("documentation/CMS_MSSP_2024_Data_Dictionary.pdf")
+          assert p.read_bytes()[:5] == b"%PDF-", "Download was not a PDF"
+          print("Verified PDF:", p.stat().st_size, "bytes")
+          PY
+      - name: Commit source PDF
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add documentation/CMS_MSSP_2024_Data_Dictionary.pdf
+          if ! git diff --cached --quiet; then
+            git commit -m "Add original CMS MSSP 2024 data dictionary PDF"
+            git pull --rebase origin main
+            git push
+          fi
